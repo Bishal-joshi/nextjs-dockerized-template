@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
 ## Getting Started
 
-First, run the development server:
+## Initial Setup
+
+Create a file .env.production and .env.development in your root folder and copy and paste the following variables.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+// .env.development
+
+NEXT_PUBLIC_BASE_URL=https://example.com
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+```bash
+// .env.production
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+NEXT_PUBLIC_BASE_URL=https://example.com
+NEXT_PUBLIC_SECRET_KEY=THIS_IS_SECRET_KEY
+```
+
+### Development Environment
+
+To start the development environment, run:
+
+```bash
+docker compose -f  docker-compose.dev.yml up --build
+```
+
+This will host the application in port 3000.
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+Note: To stop and remove docker container
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+docker compose -f  docker-compose.dev.yml down
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Production Environment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+To start the production environment, run:
 
-## Deploy on Vercel
+```bash
+docker compose -f  docker-compose.prod.yml up --build
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Note: To stop and remove docker container
+
+```bash
+docker compose -f  docker-compose.prod.yml down
+```
+
+# Next JS Configuration
+
+## Building static files
+
+In your next.config.js file, There is set the output to export. This configuration is used to create an out folder when running the build command. This is particularly useful for static site generation (SSG).
+
+```bash
+// next.config.js
+module.exports = {
+  output: 'export',
+};
+```
+
+When you run npm run build, Next.js will generate a static site and output the files into the out directory.
+
+## Redirects Configuration
+
+We have configured redirects in our next.config.js file. This setup ensures that specific routes are redirected to new destinations, allowing for control over URL modifications and proper navigation.
+
+```bash
+
+    // next.config.js
+    module.exports = {
+      async redirects() {
+        return [
+          // Basic redirect
+          {
+            source: "/about",
+            destination: "/",
+            permanent: true,
+          },
+          // Wildcard path matching
+          {
+            source: "/blog/:slug",
+            destination: "/news/:slug",
+            permanent: true,
+          },
+        ];
+      },
+    };
+```
+
+Basic Redirect: Redirects the /about page to the home page (/). This is useful for controlling access to the /about page.
+
+Wildcard Path Matching: Redirects any /blog/:slug path to /news/:slug. This allows you to handle dynamic routes, ensuring that blog posts are accessible under the /news path instead.
+
+By combining these configurations, you ensure that your Next.js application generates static files correctly and handles route redirects efficiently, providing better control over your site's navigation.
