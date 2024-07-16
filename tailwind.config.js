@@ -7,6 +7,12 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        lightblue: {
+          500: "#ADD8E6", // Light blue
+          700: "#87CEEB", // Darker light blue for hover
+        },
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
