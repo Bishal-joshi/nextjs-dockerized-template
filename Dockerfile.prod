@@ -4,7 +4,6 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-COPY .env.example .env.production
 RUN npm run build
 
 # # now serve this out/index.html with nginx

@@ -2,19 +2,12 @@
 
 ## Initial Setup
 
-Create a file .env.production and .env.development in your root folder and copy and paste the following variables.
+In each repository directory, run the following commands:
 
 ```bash
-// .env.development
-
-NEXT_PUBLIC_BASE_URL=https://example.com
-```
-
-```bash
-// .env.production
-
-NEXT_PUBLIC_BASE_URL=https://example.com
-NEXT_PUBLIC_SECRET_KEY=THIS_IS_SECRET_KEY
+     cd lolo-frontend
+     cp .env.example .env.development
+     cp .env.example .env.production
 ```
 
 ### Development Environment
